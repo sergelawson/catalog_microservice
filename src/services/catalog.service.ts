@@ -22,11 +22,24 @@ class CatalogService {
     return data;
   }
 
-  async getProducts(limit: number, offset: number) {}
+  // Instead of this, we will be calling product from elastic search
+  async getProducts(limit: number, offset: number) {
+    const data = await this._repository.find(limit, offset);
 
-  async getProduct(id: number) {}
+    return data;
+  }
 
-  async deleteProduct(id: number) {}
+  async getProduct(id: number) {
+    const data = await this._repository.findOne(id);
+
+    return data;
+  }
+
+  async deleteProduct(id: number) {
+    const data = await this._repository.delete(id);
+    // delete from elastic search
+    return data;
+  }
 }
 
 export { CatalogService };

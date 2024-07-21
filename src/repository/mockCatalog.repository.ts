@@ -22,14 +22,14 @@ class MockCatalogRepository implements ICatalogRepository {
     };
     return Promise.resolve(mockProduct);
   }
-  delete(id: number): Promise<{}> {
-    throw new Error("Method not implemented.");
+  delete(id: number): Promise<number> {
+    return Promise.resolve(id);
   }
-  find(): Promise<Product[]> {
-    throw new Error("Method not implemented.");
+  find(limit: number, offset: number): Promise<Product[]> {
+    return Promise.resolve([]);
   }
-  findOne(id: number): Promise<[]> {
-    throw new Error("Method not implemented.");
+  findOne(id: number): Promise<Product> {
+    return Promise.resolve({} as Product);
   }
 }
 
