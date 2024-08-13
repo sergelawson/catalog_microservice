@@ -1,26 +1,9 @@
-import { Factory } from "rosie";
+import { MockProduct, ProductFactory } from "../../utils/fixture";
 import { ICatalogRepository } from "../../interface/catalogRepository.interface";
 import { Product } from "../../models/product.model";
 import { MockCatalogRepository } from "../../repository/mockCatalog.repository";
 import { CatalogService } from "../catalog.service";
 import { faker } from "@faker-js/faker";
-
-const productFactory = new Factory<Product>()
-  .attr("id", faker.number.int({ min: 100, max: 1000 }))
-  .attr("name", faker.commerce.productName())
-  .attr("price", Number(faker.commerce.price()))
-  .attr("description", faker.commerce.productDescription())
-  .attr("stock", faker.number.int({ min: 1, max: 10 }));
-
-const mockProduct = (rest?: Object) => {
-  return {
-    name: faker.commerce.productName(),
-    description: faker.commerce.productDescription(),
-    price: Number(faker.commerce.price()),
-    stock: faker.number.int({ min: 10, max: 100 }),
-    ...rest,
-  };
-};
 
 describe("CatalogService", () => {
   let repository: ICatalogRepository;
@@ -37,7 +20,7 @@ describe("CatalogService", () => {
     test("Should create product", async () => {
       const service = new CatalogService(repository);
 
-      const requestBody = mockProduct();
+      const requestBody = MockProduct();
 
       const result = await service.createProduct(requestBody);
 
@@ -53,7 +36,7 @@ describe("CatalogService", () => {
     test("should throw unable to create product error", async () => {
       const service = new CatalogService(repository);
 
-      const requestBody = mockProduct();
+      const requestBody = MockProduct();
 
       jest
         .spyOn(repository, "create")
@@ -67,7 +50,7 @@ describe("CatalogService", () => {
     test("should throw product already exist error", async () => {
       const service = new CatalogService(repository);
 
-      const requestBody = mockProduct();
+      const requestBody = MockProduct();
 
       jest
         .spyOn(repository, "create")
@@ -84,7 +67,7 @@ describe("CatalogService", () => {
   describe("update product", () => {
     test("should update product", async () => {
       const service = new CatalogService(repository);
-      const requestBody = mockProduct({
+      const requestBody = MockProduct({
         id: faker.number.int({ min: 1000, max: 9999 }),
         price: Number(faker.commerce.price),
       });
@@ -115,7 +98,7 @@ describe("CatalogService", () => {
 
       const randomLimit = faker.number.int({ min: 10, max: 100 });
 
-      const productList = productFactory.buildList(randomLimit);
+      const productList = ProductFactory.buildList(randomLimit);
 
       jest.spyOn(repository, "find").mockImplementationOnce(() => {
         return Promise.resolve(productList);
@@ -146,7 +129,7 @@ describe("CatalogService", () => {
     test("should get products by id", async () => {
       const service = new CatalogService(repository);
 
-      const product = productFactory.build();
+      const product = ProductFactory.build();
 
       jest.spyOn(repository, "findOne").mockImplementationOnce(() => {
         return Promise.resolve(product);
@@ -176,7 +159,7 @@ describe("CatalogService", () => {
     test("should get delete by id", async () => {
       const service = new CatalogService(repository);
 
-      const product = productFactory.build();
+      const product = ProductFactory.build();
 
       jest.spyOn(repository, "delete").mockImplementationOnce(() => {
         return Promise.resolve(product.id!);
