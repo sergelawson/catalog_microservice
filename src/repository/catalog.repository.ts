@@ -14,7 +14,7 @@ class CatalogRepository implements ICatalogRepository {
   find(): Promise<Product[]> {
     throw new Error("Method not implemented.");
   }
-  findOne(id: number): Promise<Product> {
+  findOne(id: number): Promise<Product | null> {
     throw new Error("Method not implemented.");
   }
 }

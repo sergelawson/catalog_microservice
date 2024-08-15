@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsNumber, IsString, Min } from "class-validator";
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Min,
+} from "class-validator";
 
 export class CreateProductRequest {
   @IsString()
@@ -14,4 +20,24 @@ export class CreateProductRequest {
 
   @IsNumber()
   stock: number;
+}
+
+export class UpdateProductRequest {
+  // @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  name?: string;
+
+  @IsOptional()
+  @IsString()
+  description?: string;
+
+  @IsOptional()
+  @IsNumber()
+  @Min(1)
+  price?: number;
+
+  @IsOptional()
+  @IsNumber()
+  stock?: number;
 }
