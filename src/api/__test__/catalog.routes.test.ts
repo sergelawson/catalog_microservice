@@ -131,7 +131,6 @@ describe("Catalog Routes", () => {
         .mockImplementationOnce(() => Promise.resolve(product as Product));
       const response = await request(app)
         .get(`/products/${product.id}`)
-        .send({})
         .set("Accept", "application/json");
 
       expect(response.status).toBe(200);
@@ -146,7 +145,6 @@ describe("Catalog Routes", () => {
         .mockImplementationOnce(() => Promise.resolve(null));
       const response = await request(app)
         .get(`/products/${product.id}`)
-        .send({})
         .set("Accept", "application/json");
 
       expect(response.status).toBe(404);
@@ -162,8 +160,7 @@ describe("Catalog Routes", () => {
         .spyOn(catalogService, "getProducts")
         .mockImplementationOnce(() => Promise.resolve(product as Product[]));
       const response = await request(app)
-        .get(`/products?limit=${limit}`)
-        .send({})
+        .get(`/products?limit=${limit}&offset=0`)
         .set("Accept", "application/json");
 
       expect(response.status).toBe(200);
@@ -180,7 +177,6 @@ describe("Catalog Routes", () => {
         .mockImplementationOnce(() => Promise.resolve(Number(product.id)));
       const response = await request(app)
         .delete(`/products/${product.id}`)
-        .send({})
         .set("Accept", "application/json");
 
       expect(response.status).toBe(200);

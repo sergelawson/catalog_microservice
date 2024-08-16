@@ -47,7 +47,7 @@ router.patch("/products/:id", async (req: Request, res: Response) => {
 });
 
 router.get("/products/:id", async (req: Request, res: Response) => {
-  const id = Number(req.params["id"]) || 0;
+  const id = Number(req.params["id"]);
 
   try {
     const product = await catalogService.getProduct(id);
@@ -62,10 +62,11 @@ router.get("/products/:id", async (req: Request, res: Response) => {
 });
 
 router.get("/products", async (req: Request, res: Response) => {
-  const limit = Number(req.query["limit"]) || 5;
+  const limit = Number(req.query["limit"]);
+  const offset = Number(req.query["offset"]);
 
   try {
-    const product = await catalogService.getProducts(limit, 0);
+    const product = await catalogService.getProducts(limit, offset);
 
     return res.status(200).json(product);
   } catch (error) {
